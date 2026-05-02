@@ -1,0 +1,19 @@
+version = 1
+revision = 3
+requires-python = "==3.14"
+
+[manifest]
+members = [
+    "fintrack",
+    "fintrack-api",
+]
+
+[[package]]
+name = "fintrack"
+version = "0.1.0"
+source = { virtual = "." }
+
+[[package]]
+name = "fintrack-api"
+version = "0.1.0"
+source = { virtual = "apps/api" }

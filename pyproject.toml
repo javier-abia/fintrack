@@ -1,0 +1,12 @@
+[project]
+name = "fintrack"
+version = "0.1.0"
+description = "Financial Tracker"
+readme = "README.md"
+requires-python = "==3.14"
+dependencies = []
+
+[tool.uv.workspace]
+members = [
+    "apps/api",
+]
