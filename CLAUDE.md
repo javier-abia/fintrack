@@ -8,20 +8,15 @@ Fintrack is a financial tracker application with a FastAPI backend (`apps/api/`)
 
 ## Design documents
 
-Extended documentation lives outside this repo at:
+Primary docs live in the repo at `docs/`. Consult before writing or reviewing non-trivial code:
 
-```
-/home/jabia/Documents/Obsidian/Projects/Financial-tracker/docs/
-```
+- `docs/architecture.md` — system diagram, component responsibilities, CSV ingestion flow, Etherscan/CoinGecko integration points.
+- `docs/data-model.md` — all DB tables with field types, constraints, currency handling, crypto wallet validation, and soft-delete semantics.
+- `docs/features.md` — MVP features with acceptance criteria; use as the definition of done when implementing or reviewing feature work.
 
-**This path may not exist on all machines.** If present, consult these files before writing or reviewing non-trivial code:
+The remaining files (`docs/tech-stack.md`, `docs/deployment.md`, `docs/dev-tooling.md`) cover tech-stack rationale, deployment, and tooling — useful for project-level decisions but not needed during routine coding sessions.
 
-- `02-architecture.md` — system diagram, component responsibilities, CSV ingestion flow, Etherscan/CoinGecko integration points.
-- `04-data-model.md` — all 7 DB tables with field types, constraints, currency handling, crypto wallet validation, and soft-delete semantics.
-- `05-features.md` — MVP features F1–F8 with acceptance criteria; use as the definition of done when implementing or reviewing feature work.
-- `09-developer-roadmap.md` — step-by-step implementation guide per phase; consult to understand what to build next and in what order.
-
-The remaining files (`01-goals.md`, `03-tech-stack.md`, `06-deployment.md`, `07-roadmap.md`, `08-dev-tooling.md`) cover goals, tech-stack rationale, deployment, and tooling — useful for project-level decisions but not needed during routine coding sessions.
+An older copy of the docs may also exist at `/home/jabia/Documents/Obsidian/Projects/Financial-tracker/docs/` — prefer the in-repo `docs/` when both are present.
 
 ## Commands
 
@@ -67,3 +62,12 @@ uv run alembic revision --autogenerate -m "description"
 - Ruff enforces rules E, F, I, UP, B, SIM at line length 88 (E501 ignored).
 - MyPy runs in strict mode targeting Python 3.14.
 - Tests use pytest with `asyncio_mode = "auto"` — all async tests work without explicit decorators.
+
+## Commits
+
+Use Conventional Commits. Format: `type(scope): description`
+
+- Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `style`, `ci`
+- Scope: area of the codebase, e.g. `backend`, `frontend`, `infra`, `db`, `auth`
+- Example: `feat(backend): initialize skeleton for API endpoints`
+- Do **not** add `Co-Authored-By` trailers.
