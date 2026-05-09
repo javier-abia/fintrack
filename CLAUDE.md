@@ -63,6 +63,16 @@ uv run alembic revision --autogenerate -m "description"
 - MyPy runs in strict mode targeting Python 3.14.
 - Tests use pytest with `asyncio_mode = "auto"` — all async tests work without explicit decorators.
 
+## Gitflow
+
+One issue per task. One short-lived branch per issue, branched from `main`:
+
+```bash
+git checkout -b issue/42-short-description
+```
+
+Open a PR that references the issue (`Closes #42`) — merging to `main` closes it automatically. `main` is always in a working state.
+
 ## Commits
 
 Use Conventional Commits. Format: `type(scope): description`
