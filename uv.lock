@@ -128,7 +128,7 @@ source = { virtual = "." }
 [[package]]
 name = "fintrack-api"
 version = "0.1.0"
-source = { virtual = "apps/api" }
+source = { editable = "apps/api" }
 dependencies = [
     { name = "aiosqlite" },
     { name = "alembic" },

@@ -27,14 +27,14 @@ All Python tooling uses `uv`. Run commands from the repo root unless noted.
 uv sync
 
 # Run the API dev server
-uv run uvicorn apps.api.main:app --reload
+uv run uvicorn fintrack_api.main:app --reload
 
 # Lint
 uv run ruff check .
 uv run ruff format .
 
 # Type check
-uv run mypy apps/
+uv run mypy apps/api/src/
 
 # Run tests
 uv run pytest
@@ -62,6 +62,14 @@ uv run alembic revision --autogenerate -m "description"
 - Ruff enforces rules E, F, I, UP, B, SIM at line length 88 (E501 ignored).
 - MyPy runs in strict mode targeting Python 3.14.
 - Tests use pytest with `asyncio_mode = "auto"` — all async tests work without explicit decorators.
+
+## GitHub CLI extensions
+
+- `valeriobelli/gh-milestone` — manage milestones via `gh milestone`
+
+## GitHub issues and milestones
+
+Do **not** use "Phase" or "Step" nomenclature in milestone or issue titles/descriptions, even if the docs use that language. Name by feature area or deliverable instead (e.g. "Authentication", "CSV Ingestion", "Wallet tracking").
 
 ## Gitflow
 
