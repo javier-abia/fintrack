@@ -81,6 +81,8 @@ git checkout -b issue/42-short-description
 
 Open a PR that references the issue (`Closes #42`) — merging to `main` closes it automatically. `main` is always in a working state.
 
+**Push operations are performed by the user**, not Claude — SSH passphrase entry is required. Prepare commits and output the push command; do not run `git push`.
+
 ## Commits
 
 Use Conventional Commits. Format: `type(scope): description`
