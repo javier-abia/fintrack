@@ -32,9 +32,14 @@ ignore = ["E501"]
 
 [tool.mypy]
 strict = true
-python_version = "3.14.4"
+python_version = "3.14"
 plugins = ["pydantic.mypy"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.1.0",
+]
