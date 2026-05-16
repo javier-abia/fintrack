@@ -63,6 +63,8 @@ uv run alembic revision --autogenerate -m "description"
 - MyPy runs in strict mode targeting Python 3.14.
 - Tests use pytest with `asyncio_mode = "auto"` — all async tests work without explicit decorators.
 
+Do **not** manually run `ruff`, `mypy`, or other linters/formatters — pre-commit hooks run them automatically on commit.
+
 ## GitHub CLI extensions
 
 - `valeriobelli/gh-milestone` — manage milestones via `gh milestone`
