@@ -19,6 +19,7 @@ class AccountKind(enum.Enum):
     credit_card = "credit_card"
     crypto = "crypto"
     cash = "cash"
+    investment = "investment"
 
 
 class Account(Base):

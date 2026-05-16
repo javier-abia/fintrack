@@ -25,12 +25,14 @@ A logical financial account: a bank account, a credit card, a crypto wallet, etc
 | -------------- | -------- | ------------------------------------------------------- |
 | `id`           | int PK   |                                                         |
 | `name`         | str      | "ING Checking", "Revolut", "ETH Wallet 0xabc..."        |
-| `kind`         | enum     | `checking`, `savings`, `credit_card`, `crypto`, `cash`  |
+| `kind`         | enum     | `checking`, `savings`, `credit_card`, `crypto`, `cash`, `investment` |
 | `institution`  | str      | "ING", "Revolut", "Etherscan"                           |
 | `currency`     | str (3)  | ISO code for fiat (`EUR`/`USD`/...). For crypto: `ETH`. |
 | `external_ref` | str?     | For crypto: wallet address. Null for banks.             |
 | `is_active`    | bool     | Hide closed accounts without losing history             |
 | `created_at`   | datetime |                                                         |
+
+**Note on investment accounts.** `kind='investment'` covers brokerage and fund accounts. Balance is tracked via `BalanceSnapshot` (entered manually or imported). Transactions represent cash deposits/withdrawals; individual positions and P&L are out of scope for v1.
 
 **Note on the ETH account.** It lives in the same `Account` table with
 `kind='crypto'` and `currency='ETH'`. Its native balance is in ETH, but its
