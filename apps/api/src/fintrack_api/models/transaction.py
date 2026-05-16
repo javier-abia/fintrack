@@ -30,12 +30,16 @@ class Transaction(Base):
     currency: Mapped[str] = mapped_column(String(3))
     description: Mapped[str] = mapped_column(String)
     merchant: Mapped[str | None] = mapped_column(String)
-    category_id: Mapped[int | None] = mapped_column(ForeignKey("category.id"))
+    category_id: Mapped[int | None] = mapped_column(
+        ForeignKey("category.id", use_alter=True, name="fk_transaction_category_id")
+    )
     category_source: Mapped[CategorySource] = mapped_column(
         Enum(CategorySource, native_enum=False)
     )
     external_id: Mapped[str | None] = mapped_column(String)
-    import_run_id: Mapped[int | None] = mapped_column(ForeignKey("import_run.id"))
+    import_run_id: Mapped[int | None] = mapped_column(
+        ForeignKey("import_run.id", use_alter=True, name="fk_transaction_import_run_id")
+    )
     notes: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
