@@ -4,7 +4,7 @@ import csv
 import io
 import re
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 
 _DATE_FORMATS = (
@@ -142,8 +142,6 @@ def _parse_date(row: int, value: str) -> date:
         raise CSVParseError(row, "date is empty")
     for fmt in _DATE_FORMATS:
         try:
-            from datetime import datetime
-
             return datetime.strptime(value, fmt).date()
         except ValueError:
             continue
