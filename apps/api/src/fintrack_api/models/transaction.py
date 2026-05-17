@@ -5,7 +5,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Date, Enum, ForeignKey, Numeric, String, Text, func
+from sqlalchemy import Date, Enum, ForeignKey, Integer, Numeric, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from fintrack_api.core.database import Base
@@ -31,14 +31,18 @@ class Transaction(Base):
     description: Mapped[str] = mapped_column(String)
     merchant: Mapped[str | None] = mapped_column(String)
     category_id: Mapped[int | None] = mapped_column(
-        ForeignKey("category.id", use_alter=True, name="fk_transaction_category_id")
+        Integer,
+        ForeignKey("category.id", use_alter=True, name="fk_transaction_category_id"),
     )
     category_source: Mapped[CategorySource] = mapped_column(
         Enum(CategorySource, native_enum=False)
     )
     external_id: Mapped[str | None] = mapped_column(String)
     import_run_id: Mapped[int | None] = mapped_column(
-        ForeignKey("import_run.id", use_alter=True, name="fk_transaction_import_run_id")
+        Integer,
+        ForeignKey(
+            "import_run.id", use_alter=True, name="fk_transaction_import_run_id"
+        ),
     )
     notes: Mapped[str | None] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
