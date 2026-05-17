@@ -23,8 +23,8 @@ An older copy of the docs may also exist at `/home/jabia/Documents/Obsidian/Proj
 All Python tooling uses `uv`. Run commands from the repo root unless noted.
 
 ```bash
-# Install dependencies
-uv sync
+# Install dependencies (all workspace packages + dev deps)
+uv sync --all-packages
 
 # Run the API dev server
 uv run uvicorn fintrack_api.main:app --reload
