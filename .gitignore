@@ -6,7 +6,9 @@ __pycache__/
 dist/
 .mypy_cache/
 .ruff_cache/
-*.db *.db-wal *.db-shm
+*.db
+*.db-wal
+*.db-shm
 
 # Node
 node_modules/
