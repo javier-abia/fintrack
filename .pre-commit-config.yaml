@@ -23,3 +23,12 @@ repos:
       - id: check-yaml
       - id: check-merge-conflict
       - id: detect-private-key
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: uv run mypy apps/api/src/
+        language: system
+        files: ^apps/api/
+        pass_filenames: false
