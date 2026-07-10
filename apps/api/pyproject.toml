@@ -35,10 +35,6 @@ strict = true
 python_version = "3.14"
 plugins = ["pydantic.mypy"]
 
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-testpaths = ["tests"]
-
 [dependency-groups]
 dev = [
     "httpx>=0.28.1",
