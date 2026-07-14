@@ -7,13 +7,17 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 import fintrack_api.models  # noqa: F401 — registers all ORM models with Base.metadata
+from fintrack_api.core.config import settings
 from fintrack_api.core.database import Base, get_db
+from fintrack_api.core.security import hash_password
 from fintrack_api.main import app
 
 TEST_DB_URL = "sqlite+aiosqlite:///:memory:"
+TEST_PASSWORD = "correct-horse-battery-staple"
 
 _engine = create_async_engine(TEST_DB_URL, echo=False)
 _session_factory = async_sessionmaker(_engine, expire_on_commit=False)
+settings.single_user_password_hash = hash_password(TEST_PASSWORD)
 
 
 @pytest.fixture(autouse=True, scope="function")
@@ -32,7 +36,9 @@ async def db_session() -> AsyncGenerator[AsyncSession]:
 
 
 @pytest.fixture
-async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient]:
+async def unauthenticated_client(
+    db_session: AsyncSession,
+) -> AsyncGenerator[AsyncClient]:
     async def override_get_db() -> AsyncGenerator[AsyncSession]:
         yield db_session
 
@@ -42,3 +48,15 @@ async def client(db_session: AsyncSession) -> AsyncGenerator[AsyncClient]:
     ) as ac:
         yield ac
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+async def client(
+    unauthenticated_client: AsyncClient,
+) -> AsyncGenerator[AsyncClient]:
+    login_res = await unauthenticated_client.post(
+        "/api/v1/auth/login", json={"password": TEST_PASSWORD}
+    )
+    token = login_res.json()["access_token"]
+    unauthenticated_client.headers["Authorization"] = f"Bearer {token}"
+    yield unauthenticated_client
