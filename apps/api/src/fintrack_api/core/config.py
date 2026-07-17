@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     secret_key: str = "change-me-in-production"
     single_user_password_hash: str = ""
     debug: bool = False
+    api_v1_prefix: str = "/api/v1"
 
 
 settings = Settings()

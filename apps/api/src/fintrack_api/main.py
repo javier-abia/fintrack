@@ -1,14 +1,11 @@
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 
-from fintrack_api.core.deps import require_auth
-from fintrack_api.routers import accounts, auth
+from fintrack_api.core.config import settings
+from fintrack_api.routers import api_router
 
 app = FastAPI(title="Fintrack API", version="0.1.0")
 
-app.include_router(auth.router, prefix="/api/v1")
-app.include_router(
-    accounts.router, prefix="/api/v1", dependencies=[Depends(require_auth)]
-)
+app.include_router(api_router, prefix=settings.api_v1_prefix)
 
 
 @app.get("/health")
