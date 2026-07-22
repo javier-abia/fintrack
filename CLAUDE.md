@@ -91,3 +91,17 @@ Use Conventional Commits. Format: `type(scope): description`
 - Scope: area of the codebase, e.g. `backend`, `frontend`, `infra`, `db`, `auth`
 - Example: `feat(backend): initialize skeleton for API endpoints`
 - Do **not** add `Co-Authored-By` trailers.
+
+## Agent skills
+
+### Issue tracker
+
+GitHub Issues via `gh` CLI (repo: javier-abia/fintrack). External PRs are not a triage surface. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default vocabulary — label strings match the canonical role names. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context — `CONTEXT.md` + `docs/adr/` at repo root. See `docs/agents/domain.md`.
