@@ -1,13 +1,21 @@
 from __future__ import annotations
 
-from collections.abc import AsyncGenerator
+import os
 
-import pytest
-from httpx import ASGITransport, AsyncClient
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+os.environ.setdefault("DEBUG", "true")  # tests may leave SECRET_KEY at its default
 
-import fintrack_api.models  # noqa: F401 — registers all ORM models with Base.metadata
-from fintrack_api.core.config import settings
+from collections.abc import AsyncGenerator  # noqa: E402
+
+import pytest  # noqa: E402
+from httpx import ASGITransport, AsyncClient  # noqa: E402
+from sqlalchemy.ext.asyncio import (  # noqa: E402
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
+
+import fintrack_api.models  # noqa: F401,E402 — registers all ORM models with Base.metadata
+from fintrack_api.core.config import settings  # noqa: E402
 from fintrack_api.core.database import Base, get_db
 from fintrack_api.core.security import hash_password
 from fintrack_api.main import app
