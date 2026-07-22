@@ -1,3 +1,5 @@
+import { getToken } from "@/lib/authToken";
+
 const API_BASE = "/api";
 
 class ApiError extends Error {
@@ -15,7 +17,7 @@ async function request<T>(
   path: string,
   body?: unknown,
 ): Promise<T> {
-  const token = localStorage.getItem("access_token");
+  const token = getToken();
   const headers: Record<string, string> = {};
   if (token) headers.Authorization = `Bearer ${token}`;
   if (body !== undefined) headers["Content-Type"] = "application/json";
