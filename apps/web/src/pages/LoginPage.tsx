@@ -21,8 +21,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { setToken } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
+import { setToken } from "@/lib/authToken";
 import type { TokenResponse } from "@/types/auth";
 
 const loginSchema = z.object({
