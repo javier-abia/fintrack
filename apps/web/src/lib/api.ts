@@ -22,21 +22,13 @@ async function errorMessage(response: Response): Promise<string> {
   }
 }
 
-async function request<T>(
-  method: "GET" | "POST" | "PATCH" | "DELETE",
-  path: string,
-  body?: unknown,
-): Promise<T> {
+function authHeaders(): Record<string, string> {
   const token = getToken();
-  const headers: Record<string, string> = {};
-  if (token) headers.Authorization = `Bearer ${token}`;
-  if (body !== undefined) headers["Content-Type"] = "application/json";
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
 
-  const response = await fetch(`${API_BASE}${path}`, {
-    method,
-    headers,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  });
+async function send<T>(path: string, init: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE}${path}`, init);
 
   if (!response.ok) {
     throw new ApiError(response.status, await errorMessage(response));
@@ -46,22 +38,27 @@ async function request<T>(
   return (await response.json()) as T;
 }
 
-async function postForm<T>(path: string, formData: FormData): Promise<T> {
-  const token = getToken();
-  const headers: Record<string, string> = {};
-  if (token) headers.Authorization = `Bearer ${token}`;
+async function request<T>(
+  method: "GET" | "POST" | "PATCH" | "DELETE",
+  path: string,
+  body?: unknown,
+): Promise<T> {
+  const headers: Record<string, string> = { ...authHeaders() };
+  if (body !== undefined) headers["Content-Type"] = "application/json";
 
-  const response = await fetch(`${API_BASE}${path}`, {
-    method: "POST",
+  return send<T>(path, {
+    method,
     headers,
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  });
+}
+
+async function postForm<T>(path: string, formData: FormData): Promise<T> {
+  return send<T>(path, {
+    method: "POST",
+    headers: authHeaders(),
     body: formData,
   });
-
-  if (!response.ok) {
-    throw new ApiError(response.status, await errorMessage(response));
-  }
-
-  return (await response.json()) as T;
 }
 
 export const api = {
