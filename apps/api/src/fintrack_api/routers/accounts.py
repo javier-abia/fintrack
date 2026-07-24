@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from decimal import Decimal
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
@@ -20,16 +21,28 @@ DbSession = Annotated[AsyncSession, Depends(get_db)]
 
 @router.get("/", response_model=list[AccountRead])
 async def list_accounts(db: DbSession) -> list[AccountRead]:
-    result = await db.execute(
-        select(Account, func.coalesce(func.sum(Transaction.amount), 0))
-        .outerjoin(Transaction, Transaction.account_id == Account.id)
-        .where(Account.is_active.is_(True))
-        .group_by(Account.id)
-    )
+    balances = await _account_balances(db)
+    result = await db.execute(select(Account).where(Account.is_active.is_(True)))
     return [
-        AccountRead.model_validate(account).model_copy(update={"balance": balance})
-        for account, balance in result.all()
+        AccountRead.model_validate(account).model_copy(
+            update={"balance": balances.get(account.id, Decimal(0))}
+        )
+        for account in result.scalars().all()
     ]
+
+
+async def _account_balances(db: DbSession) -> dict[int, Decimal]:
+    # TODO(#TBD): This sums Transaction.amount as a stand-in for the
+    # BalanceSnapshot model described in docs/data-model.md. It only holds
+    # for cash/fiat accounts with no gaps in transaction history. Crypto and
+    # investment accounts need real balance readings (etherscan/manual) and
+    # currency-aware handling once those kinds are populated.
+    result = await db.execute(
+        select(Transaction.account_id, func.sum(Transaction.amount)).group_by(
+            Transaction.account_id
+        )
+    )
+    return {account_id: balance for account_id, balance in result.all()}
 
 
 @router.post("/", response_model=AccountRead, status_code=201)
