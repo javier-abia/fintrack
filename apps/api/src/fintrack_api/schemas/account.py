@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
 
 from pydantic import BaseModel
 
@@ -34,3 +35,4 @@ class AccountRead(AccountBase):
 
     id: int
     created_at: datetime
+    balance: Decimal = Decimal("0")
