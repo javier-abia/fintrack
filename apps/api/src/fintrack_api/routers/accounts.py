@@ -32,7 +32,7 @@ async def list_accounts(db: DbSession) -> list[AccountRead]:
 
 
 async def _account_balances(db: DbSession) -> dict[int, Decimal]:
-    # TODO(#TBD): This sums Transaction.amount as a stand-in for the
+    # TODO(#37): This sums Transaction.amount as a stand-in for the
     # BalanceSnapshot model described in docs/data-model.md. It only holds
     # for cash/fiat accounts with no gaps in transaction history. Crypto and
     # investment accounts need real balance readings (etherscan/manual) and
